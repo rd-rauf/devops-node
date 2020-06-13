@@ -17,6 +17,9 @@ app.use(express.static(path.join(__dirname, 'public/dist/')));
 const usersRoutes = require('./routes/users')
 app.use('/users', usersRoutes);
 
+const PORT = normalizePort(process.env.PORT || '1234');
+app.set('PORT', PORT);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
@@ -36,9 +39,9 @@ function onError(error) {
         throw error;
     }
 
-    const bind = typeof port === 'string'
-        ? 'Pipe ' + port
-        : 'Port ' + port;
+    const bind = typeof PORT === 'string'
+        ? 'Pipe ' + PORT
+        : 'Port ' + PORT;
 
     switch (error.code) {
         case 'EACCES':
@@ -58,7 +61,7 @@ function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string'
         ? 'pipe ' + addr
-        : 'port ' + addr.port;
+        : 'port ' + addr.PORT;
     debug('Listening on ' + bind);
 }
 
@@ -80,10 +83,9 @@ function normalizePort(val) {
 
 const server = http.createServer(app);
 
-const port = normalizePort(process.env.PORT || '1234');
-app.set('port', port);
-
-server.listen(port);
+server.listen(PORT, () => {
+    console.log("Listening on port: " + PORT);
+})
 server.on('error', onError);
 server.on('listening', onListening);
 
