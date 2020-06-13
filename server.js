@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/dist/')));
 
-const usersRoutes = require('./routes/users')
+const usersRoutes = require('./src/routes/users')
 app.use('/users', usersRoutes);
 
 // catch 404 and forward to error handler
